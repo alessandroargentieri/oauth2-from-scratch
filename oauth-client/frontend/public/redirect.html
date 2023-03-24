@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Redirecting</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    </head>
+    <body>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            var resp
+            // performs the call to the backend to exchange the code with the access_token and producing the app-token
+            // as soon as the backend responds with the `app-token` it redirects to the welcome page
+            $(document).ready(function(){
+                const params = new URLSearchParams(window.location.search);
+                const code = params.get('code');
+
+                const payload = {
+                    client_id: "12345",
+                    code: code,
+                    redirect_uri: "http://localhost:8081/redirect",
+                    state: "xyz"
+                };
+
+                const options = {
+                    responseType: 'json',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                axios.post('http://localhost:8082/exchange-token', payload, options)
+                .then((response) => {
+                    const data = response.data;
+                    console.log(response.data);
+                   localStorage.setItem("app-token", response.headers['app-token']);
+                   window.location = 'http://localhost:8081/?name='+data.name;
+                })
+                .catch((error) => {
+                    console.error(`Error: ${error}`);
+                });
+
+               /* $.ajax({
+                    url: "http://localhost:8082/exchange-token",
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify( { "client_id": "12345", "code": code, "redirectUri": "http://localhost:8081/redirect", "state": "xyz" } ),
+                    processData: false,
+                    dataType: "json",
+
+                    success: function (data, status, xhr) {
+                        console.log(data);
+                        console.log(xhr);
+                        resp = xhr
+                        console.log(xhr.getAllResponseHeaders())
+                        appToken = xhr.getResponseHeader("app-token")
+                        localStorage.setItem("app-token", appToken);
+                        // redirects to welcome page
+                       // window.location = 'http://localhost:8081/';
+                    },
+                    error: function(result) {
+                        alert("Error!");
+                        console.log(result);
+                    }
+                });*/
+            })
+        </script>
+    </body>
+</html>>

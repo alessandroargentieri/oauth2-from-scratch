@@ -1,0 +1,10 @@
+github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keLg81eXfW3O+oY=
+github.com/golang-jwt/jwt v3.2.2+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
+github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
+github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
+github.com/gyozatech/noodlog v0.0.0-20211006161024-c2cd168c8400 h1:48Q83dY9XTZUoiq6fcQmXE1D6JDYnqC1196L6LCv3Uw=
+github.com/gyozatech/noodlog v0.0.0-20211006161024-c2cd168c8400/go.mod h1:W1tDQeyBu7G8nnJ6u+gAyoxDfejb23k5NtRrFfUjA1E=
+github.com/gyozatech/temaki v0.1.0 h1:PS81+a+WPbgUsyNF91mEajmI1xFh5tHEvU3FY3ra6Gg=
+github.com/gyozatech/temaki v0.1.0/go.mod h1:0bHBpZuE495LnWohLnHGsUBaFRVM4XfCUVbpwn2rVjY=
+github.com/robfig/cron/v3 v3.0.1 h1:WdRxkvbJztn8LMz/QEvLN5sBU+xKpSqwwUO1Pjr4qDs=
+github.com/robfig/cron/v3 v3.0.1/go.mod h1:eQICP3HwyT7UooqI/z+Ov+PtYAWygg1TEWWzGIFLtro=
