@@ -6,6 +6,19 @@ The client application to which the user gets logged in, can take advantage of s
 
 So Oauth2 provider aims to check the user credentials and to guide the authorization flow from the beginning to the end, instead the Resource Server is the server to which query the user information via the obtained `access_token`.
 
+## How many different Oauth2 flow exist?
+These are the most common OAuth 2.0 flows, along with their possible synonyms used in the industry:
+
+- `Authorization Code Flow` (aka `Web Server Flow` or `Server-side Flow`): This flow is used when the client (usually a web server) is requesting access to a protected resource on behalf of a user. The flow involves the client first redirecting the user to the authorization server, where the user is prompted to log in and grant permission to the client. The authorization server then redirects the user back to the client with an authorization code, which the client can exchange for an access token.
+
+- `Implicit Flow` (aka `Client-side Flow`): This flow is similar to the authorization code flow, but is used when the client is a web application running in the user's browser. The flow skips the step of requesting an authorization code and instead immediately returns an access token to the client.
+
+- `Resource Owner Password Credentials Flow` (aka `Password Flow`): This flow is used when the client already has the user's username and password, and wants to directly exchange those credentials for an access token.
+
+- `Client Credentials Flow`: This flow is used when the client (often a service or backend application) is requesting access to protected resources on its own behalf, rather than on behalf of a user. The client simply presents its own credentials to the authorization server in exchange for an access token.
+
+- `Device Authorization Flow` (aka `Device Flow`): This flow is used when the client is an input-constrained device (such as a TV or game console) that cannot display a full user interface for logging in and granting permission. The flow involves the device presenting a user code to the user, who then visits a web page on a separate device to enter the code and grant permission to the client.
+
 ## How an application can take advantage of the Oauth2 protocol?
 
 An application can avoid having its own user database to have some user data, avoiding the user to signup to its system, fill a form of personal data and remember the relative credentials.
