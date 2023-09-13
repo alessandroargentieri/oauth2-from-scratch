@@ -1,13 +1,14 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
-
+	
 	"provider/database"
 	"provider/utils"
 
@@ -162,6 +163,17 @@ func tokenHandler(w http.ResponseWriter, r *http.Request) {
 	redirectURI := r.FormValue("redirect_uri")
 	clientID := r.FormValue("client_id")
 	clientSecret := r.FormValue("client_secret")
+	
+	// client_id and client_secret can be sent either as Basic Authorization header or as form url-encoded values
+	// SO IF THEY'RE NOT FOUND IN THE POSTED FORM, WE TRY TO FETCH THEM IN THE AUTHORIZATION HEADER
+	if clientID == "" && clientSecret == "" {
+		clientID, clientSecret = getClientIDAndSecretFromHeader(r.Header.Get("Authorization"))
+	}
+
+	if code == "" || redirectURI == "" || clientID == "" || clientSecret == "" || grantType == "" {
+		http.Error(w, "missing one or more of the following params from the 'POST /token' request: code, redirect_uri, client_id, client_secret, grant_type", http.StatusBadRequest)
+		return
+	}
 
 	if grantType != "authorization_code" {
 		http.Error(w, "Only Auth flow available is the Authorization Code flow, so query param grant_type must be set to 'authorization_code'", http.StatusBadRequest)
@@ -264,4 +276,22 @@ func generatePage(pageName, state string, params ...pageParam) (htmlPage string,
 	}
 
 	return htmlPage, nil
+}
+
+func getClientIDAndSecretFromHeader(authorizationHeader string) (clientID, clientSecret string) {
+	if !strings.HasPrefix(authorizationHeader, "Basic ") {
+		// because is "" or simply different
+		return "", ""
+	}
+	decoded, err := base64.StdEncoding.DecodeString(authorizationHeader[6:])
+	if err != nil {
+		log.Error("error while decoding Authorization header: ", err)
+		return "", ""
+	}
+	creds := strings.Split(string(decoded), ":")
+	if len(creds) != 2 {
+		log.Error("error decoding the Basic Auth header: expecting <client_id>:<client_secret>, got %s", creds)
+		return "", ""
+	}
+	return creds[0], creds[1]
 }
